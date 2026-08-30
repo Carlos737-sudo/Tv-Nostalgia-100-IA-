@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ===================== LOGIN ===================== */
-
     const formulario = document.querySelector(".login form");
     const nomeInput = document.getElementById("nome");
     const codigoInput = document.getElementById("codigo");
@@ -28,7 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const ripple = document.createElement("span");
         ripple.classList.add("ripple");
-        ripple.style.width = ripple.style.height = `${raio}px`;
+        ripple.style.width = `${raio}px`;
+        ripple.style.height = `${raio}px`;
         ripple.style.left = `${evento.clientX - rect.left - raio / 2}px`;
         ripple.style.top = `${evento.clientY - rect.top - raio / 2}px`;
 
@@ -71,8 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
         criarRipple(event, botaoContinuar);
     });
 
-    /* ===================== NAVEGAÇÃO ENTRE TELAS ===================== */
-
     const abas = document.querySelectorAll(".aba");
     const telas = document.querySelectorAll(".tela");
 
@@ -80,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         telas.forEach((tela) => {
             tela.classList.toggle("oculto", tela.dataset.tela !== nomeTela);
         });
+
         abas.forEach((aba) => {
             aba.classList.toggle("ativa", aba.dataset.tela === nomeTela);
         });
@@ -97,20 +95,36 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    document.getElementById("botaoJaViu").addEventListener("click", (event) => {
+    const botaoJaViu = document.getElementById("botaoJaViu");
+
+    botaoJaViu.addEventListener("click", (event) => {
         pulsar(event.currentTarget);
         criarRipple(event, event.currentTarget);
         irParaTela("votar");
     });
 
-    /* ===================== FOTOS ===================== */
+    function criarAvatar(personagem) {
+        if (personagem.foto && personagem.foto.trim() !== "") {
+            return `
+                <div class="avatar" style="background: linear-gradient(160deg, ${personagem.cor}, #1a1207);">
+                    <img src="${personagem.foto}" alt="${personagem.nome}">
+                </div>
+            `;
+        }
+
+        return `
+            <div class="avatar" style="background: linear-gradient(160deg, ${personagem.cor}, #1a1207);">
+                ${personagem.iniciais}
+            </div>
+        `;
+    }
 
     const gradeFotos = document.getElementById("grade-fotos");
 
     function renderizarFotos() {
         gradeFotos.innerHTML = PERSONAGENS.map((p) => `
             <div class="cartao-foto">
-                <div class="avatar" style="background: linear-gradient(160deg, ${p.cor}, #1a1207);">${p.iniciais}</div>
+                ${criarAvatar(p)}
                 <h3>${p.nome}</h3>
                 <p class="categoria">${p.categoria}</p>
                 <p class="periodo">${p.periodo}</p>
@@ -126,11 +140,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* ===================== VOTAR ===================== */
-
     const gradeVotar = document.getElementById("grade-votar");
     const botaoConfirmarVoto = document.getElementById("botaoConfirmarVoto");
-
     const CHAVE_JA_VOTOU = "tvNostalgica_jaVotou";
     let idSelecionado = null;
 
@@ -142,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
         gradeVotar.innerHTML = PERSONAGENS.map((p) => `
             <div class="cartao-votar" data-id="${p.id}" role="button" tabindex="0">
                 <span class="selo-selecionado">&#10003; Selecionado</span>
-                <div class="avatar" style="background: linear-gradient(160deg, ${p.cor}, #1a1207);">${p.iniciais}</div>
+                ${criarAvatar(p)}
                 <h3>${p.nome}</h3>
                 <p class="categoria">${p.categoria}</p>
                 <p class="periodo">${p.periodo}</p>
@@ -171,9 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     botaoConfirmarVoto.addEventListener("click", (event) => {
-        if (jaVotou()) {
-            return;
-        }
+        if (jaVotou()) return;
 
         if (!idSelecionado) {
             alert("Escolha um personagem antes de confirmar o voto.");
@@ -200,15 +209,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (aviso) aviso.textContent = texto;
     }
 
-    /* ===================== PLACAR ===================== */
-
     const podio = document.getElementById("podio");
     const listaClassificacao = document.getElementById("lista-classificacao");
 
     function renderizarPlacar() {
         const ordenados = [...PERSONAGENS].sort((a, b) => b.votos - a.votos);
         const topTres = ordenados.slice(0, 3);
-        const maiorVotos = ordenados[0].votos;
+        const maiorVotos = ordenados.length > 0 ? ordenados[0].votos : 0;
 
         const classes = ["ouro", "prata", "bronze"];
         const medalhas = ["1", "2", "3"];
@@ -216,7 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
         podio.innerHTML = topTres.map((p, indice) => `
             <div class="pedestal ${classes[indice]}">
                 <span class="medalha">${medalhas[indice]}</span>
-                <div class="avatar" style="background: linear-gradient(160deg, ${p.cor}, #1a1207);">${p.iniciais}</div>
+                ${criarAvatar(p)}
                 <h3>${p.nome}</h3>
                 <p class="votos">${p.votos.toLocaleString("pt-BR")}</p>
                 <p class="votos-label">votos</p>
@@ -227,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
         listaClassificacao.innerHTML = ordenados.map((p, indice) => {
             const posicao = indice + 1;
             const classePosicao = posicao === 1 ? "top1" : posicao === 2 ? "top2" : posicao === 3 ? "top3" : "";
-            const largura = Math.max(6, Math.round((p.votos / maiorVotos) * 100));
+            const largura = maiorVotos > 0 ? Math.max(6, Math.round((p.votos / maiorVotos) * 100)) : 6;
 
             return `
                 <li class="item-classificacao">
@@ -235,14 +242,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="nome">${p.nome}</span>
                     <span class="qtd-votos">${p.votos.toLocaleString("pt-BR")} votos</span>
                     <div class="barra-fundo">
-                        <div class="barra-preenchida" style="width: ${largura}%;"></div>
+                        <div class="barra-preenchida" style="width: ${largura}%"></div>
                     </div>
                 </li>
             `;
         }).join("");
     }
-
-    /* ===================== INICIALIZAÇÃO ===================== */
 
     renderizarFotos();
     renderizarVotar();
