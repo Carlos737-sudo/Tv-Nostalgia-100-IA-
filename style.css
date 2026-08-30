@@ -568,6 +568,14 @@ button[type="submit"].pulsando,
     margin-bottom: 14px;
 }
 
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
 .cartao-foto h3,
 .cartao-votar h3 {
     font-family: 'Cinzel', serif;
