@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Nostálgica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <header>
+        <h1>TV Nostálgica</h1>
+        <p>Embarque em uma viagem pelas relíquias que marcaram a televisão brasileira!</p>
+    </header>
+
+    <main>
+
+        <!-- TELA DE LOGIN -->
+        <section class="login">
+            <h2>Participar da votação</h2>
+            <p>
+                Digite seu nome e o código fornecido pela organização.
+            </p>
+
+            <form>
+
+                <div class="campo">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+                </div>
+
+                <div class="campo">
+                    <label for="codigo">Código de acesso:</label>
+                    <input type="password" id="codigo" name="codigo" placeholder="Digite o código" required>
+                </div>
+
+                <button type="submit" id="botaoContinuar">
+                    Continuar
+                </button>
+
+            </form>
+            <p id="mensagem"></p>
+
+        </section>
+
+        <!-- APP PRINCIPAL (pós-login) -->
+        <section id="app" class="oculto">
+
+            <nav id="navPrincipal" class="nav-principal">
+                <div class="nav-marca">
+                    <span class="nav-titulo">TV Nostálgica</span>
+                    <span class="nav-subtitulo" id="boas-vindas"></span>
+                </div>
+                <div class="nav-abas" role="tablist">
+                    <button class="aba" data-tela="fotos" id="botaoFoto" role="tab">Fotos</button>
+                    <button class="aba" data-tela="votar" id="botaoVotar" role="tab">Votar</button>
+                    <button class="aba" data-tela="placar" id="botaoPlacar" role="tab">Placar</button>
+                </div>
+            </nav>
+
+            <div class="palco">
+
+                <!-- TV retrô decorativa -->
+                <div class="tv-retro" aria-hidden="true">
+                    <div class="tv-antena tv-antena-esq"></div>
+                    <div class="tv-antena tv-antena-dir"></div>
+                    <div class="tv-corpo">
+                        <div class="tv-tela">
+                            <div class="tv-barras"></div>
+                            <span class="tv-logo">TV<br>NOSTÁLGICA</span>
+                        </div>
+                        <div class="tv-botoes">
+                            <span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="tv-base"></div>
+                </div>
+
+                <div class="rolo-filme rolo-esq" aria-hidden="true"></div>
+                <div class="rolo-filme rolo-dir" aria-hidden="true"></div>
+
+                <!-- TELA: FOTOS -->
+                <section class="tela" id="telaFotos" data-tela="fotos">
+                    <div class="tela-cabecalho">
+                        <h2>— Fotos —</h2>
+                        <p>Reviva os personagens que marcaram a televisão brasileira.</p>
+                    </div>
+
+                    <div class="grade-fotos" id="grade-fotos"></div>
+
+                    <div class="acao-central">
+                        <button class="botao-dourado" id="botaoJaViu">Já viu todos? &rarr; Votar agora</button>
+                    </div>
+                </section>
+
+                <!-- TELA: VOTAR -->
+                <section class="tela oculto" id="telaVotar" data-tela="votar">
+                    <div class="tela-cabecalho">
+                        <h2>&#10022; Escolha o seu favorito! &#10022;</h2>
+                        <p>Depois de conhecer os personagens, escolha aquele que mais marcou você.</p>
+                    </div>
+
+                    <div class="grade-votar" id="grade-votar"></div>
+
+                    <div class="acao-central">
+                        <button class="botao-dourado" id="botaoConfirmarVoto">Confirmar voto</button>
+                    </div>
+
+                    <div class="aviso-voto">
+                        <span class="aviso-icone">&#9733;</span>
+                        <span>Seu voto será registrado apenas uma vez.<br>Escolha com carinho!</span>
+                    </div>
+                </section>
+
+                <!-- TELA: PLACAR -->
+                <section class="tela oculto" id="telaPlacar" data-tela="placar">
+                    <div class="tela-cabecalho">
+                        <h2>— Placar —</h2>
+                        <p>Confira os personagens mais votados pelo público!</p>
+                    </div>
+
+                    <div class="placar-conteudo">
+                        <div class="podio" id="podio"></div>
+
+                        <div class="classificacao">
+                            <h3>Classificação geral</h3>
+                            <ol class="lista-classificacao" id="lista-classificacao"></ol>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>TV Nostálgica 2026 - feito pelo melhor programador do CEPI Parque dos Buritis</p>
+    </footer>
+
+    <script src="dados.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
