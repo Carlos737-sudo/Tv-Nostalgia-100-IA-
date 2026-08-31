@@ -221,6 +221,47 @@ main {
     transition: background-color 9999s ease-in-out 0s;
 }
 
+/* ---- Campo de senha com botão de olho ---- */
+
+.campo-senha input {
+    padding-right: 46px;
+}
+
+.olho {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--gold-soft);
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.olho:hover {
+    color: var(--gold);
+    background: rgba(247, 196, 78, 0.1);
+}
+
+.olho:focus-visible {
+    outline: 1px solid var(--gold);
+    outline-offset: 2px;
+}
+
+.olho svg {
+    display: block;
+}
+
 button[type="submit"],
 .opcoes button,
 .botao-dourado {
@@ -891,6 +932,10 @@ footer::after {
 
     .campo input {
         padding: 13px 12px;
+    }
+
+    .campo-senha input {
+        padding-right: 42px;
     }
 
     .opcoes {
