@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const boasVindas = document.getElementById("boas-vindas");
     const botaoContinuar = document.getElementById("botaoContinuar");
 
-    const codigoCorreto = "oi";
+    const codigoCorreto = "lilas";
 
     function pulsar(botao) {
         botao.classList.add("pulsando");
