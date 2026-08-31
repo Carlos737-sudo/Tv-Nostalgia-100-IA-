@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const boasVindas = document.getElementById("boas-vindas");
     const botaoContinuar = document.getElementById("botaoContinuar");
 
+    const botaoOlho = document.getElementById("toggleSenha");
+    const olhoAberto = botaoOlho.querySelector(".icone-olho-aberto");
+    const olhoFechado = botaoOlho.querySelector(".icone-olho-fechado");
+
     const codigoCorreto = "lilas";
 
     function pulsar(botao) {
@@ -34,6 +38,23 @@ document.addEventListener("DOMContentLoaded", () => {
         botao.appendChild(ripple);
         setTimeout(() => ripple.remove(), 600);
     }
+
+    function alternarVisibilidadeSenha() {
+        const mostrando = codigoInput.type === "text";
+
+        codigoInput.type = mostrando ? "password" : "text";
+
+        olhoAberto.classList.toggle("oculto", !mostrando);
+        olhoFechado.classList.toggle("oculto", mostrando);
+
+        botaoOlho.setAttribute("aria-label", mostrando ? "Mostrar senha" : "Ocultar senha");
+
+        codigoInput.focus();
+    }
+
+    botaoOlho.addEventListener("click", () => {
+        alternarVisibilidadeSenha();
+    });
 
     formulario.addEventListener("submit", (event) => {
         event.preventDefault();
